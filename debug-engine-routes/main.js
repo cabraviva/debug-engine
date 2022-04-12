@@ -2,6 +2,11 @@ const socket = io()
 
 const consoleOutput = []
 const payloads = []
+let routes = []
+
+socket.on('routes', _routes => {
+    routes = _routes
+})
 
 const pages = {
     cout: `
@@ -10,7 +15,10 @@ const pages = {
     reqs: `
         <div id="reqs-output"></div>
     `,
-    routes: ``
+    routes: `
+        <h1 style="margin-left:1vw">Routes:</h1>
+        <div id="routes-output"></div>
+    `
 }
 
 function setMainContent (namespace) {
@@ -26,6 +34,10 @@ function setMainContent (namespace) {
 
     if (namespace === 'reqs') {
         updateReqs()
+    }
+
+    if (namespace === 'routes') {
+        updateRoutes()
     }
 }
 
@@ -86,6 +98,37 @@ function objectToList (obj) {
     return html
 }
 
+function base64ToArrayBuffer(_base64Str) {
+      var binaryString = window.atob(_base64Str);
+      var binaryLen = binaryString.length;
+      var bytes = new Uint8Array(binaryLen);
+      for (var i = 0; i < binaryLen; i++) {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+     }
+     return bytes;
+}
+
+function showDocument(_base64Str, _contentType) {
+      var byte = base64ToArrayBuffer(_base64Str);
+      var blob = new Blob([byte], { type: _contentType });
+      window.open(URL.createObjectURL(blob), "_blank");
+}
+
+function updateRoutes () {
+    let routesList = '<ul>'
+
+    for (const route of routes) {
+        routesList += `
+            <li class="pointer" title="Show handler" onclick="showDocument('${btoa(route.handler)}', 'text/javascript')"><h3><span class="req-method">${route.methods}</span> ${route.path}</h3></li>
+        `
+    }
+
+    routesList += '</ul>'
+
+    $$('#routes-output').inner(routesList)
+}
+
 function updateReqs () {
 
     const genSessionDiv = (session) => {
@@ -129,10 +172,12 @@ function updateReqs () {
                     <h4>Response Headers:</h4>
                     ${objectToList(payload.response.headers)}
                 </div>
+
+                <br>
             </div>
         `
 
-        finalHTML += `<div class="req-container">${reqHTML}</div><br><hr><br>`
+        finalHTML += `<div class="req-container">${reqHTML}</div><hr><br>`
     }
 
     finalHTML += ''

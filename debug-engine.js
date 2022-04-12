@@ -21,6 +21,8 @@ class DebugEngine {
         const _log = console.log.bind(console)
 
         this.console = console
+        this.targetApps = []
+        this.routes = []
 
         this._warnBuffer = []
         this._errorBuffer = []
@@ -146,12 +148,34 @@ class DebugEngine {
             for (const payload of this._requestPayloads) {
                 socket.emit('new-request', payload)
             }
+
+            // Routes
+            socket.emit('routes', this.routes)
         })
     }
 
     debugServerInitialized () {
         const url = `http://localhost:5050`
         open(url)
+    }
+
+    onListening () {
+        const self = this
+
+        return function () {
+            // Dispatched when the server is listening
+            for (const app of self.targetApps) {
+                const routesStack = app._router.stack.filter(route => route.route)
+                for (const route of routesStack) {
+                    const routePath = route.route.path
+                    self.routes.push({
+                        path: routePath,
+                        methods: Object.keys(route.route.methods).join(',').toUpperCase(),
+                        handler: route.route.stack[0].handle.toString()
+                    })
+                }
+            }
+        }
     }
 
     pipe (app) {
@@ -189,6 +213,8 @@ class DebugEngine {
 
             next()
         }
+
+        this.targetApps.push(app)
 
         if (!this.deactivated) app.use(mw)
     }

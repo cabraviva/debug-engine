@@ -6,7 +6,9 @@ console = debugEngine.console // Pipe console to debug engine
 // Express app
 const express = require('express')
 const app = express()
-app.listen(3000, () => {})
+app.listen(3000, () => {
+    debugEngine.onListening()()
+})
 
 // Pipe express app into the debug engine
 debugEngine.pipe(app) // Put this code before your routes and after every other middleware
@@ -16,7 +18,6 @@ app.get('/', (req, res) => {
     res.status(200)
     res.send('Hello World!')
 })
-
 
 // Console Output
 console.log('Hello World!')
