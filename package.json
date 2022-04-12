@@ -1,6 +1,6 @@
 {
   "name": "debug-engine",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A simple GUI based debugger for node.js applications",
   "main": "debug-engine.js",
   "directories": {
