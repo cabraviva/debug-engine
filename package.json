@@ -1,0 +1,28 @@
+{
+  "name": "debug-engine",
+  "version": "1.0.0",
+  "description": "Simple debugger for node.js applications",
+  "main": "debug-engine.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greencoder001/debug-engine.git"
+  },
+  "keywords": [
+    "debug",
+    "debugger",
+    "debug-engine",
+    "debugger-engine"
+  ],
+  "author": "greencoder001",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greencoder001/debug-engine/issues"
+  },
+  "homepage": "https://github.com/greencoder001/debug-engine#readme"
+}
