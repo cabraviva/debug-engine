@@ -5,7 +5,7 @@
 At the very beginning of your script, create a new DebugEngine instance:
 
 ```javascript
-const DebugEngine = require('../')
+const DebugEngine = require('debug-engine')
 const debugEngine = new DebugEngine()
 ```
 
