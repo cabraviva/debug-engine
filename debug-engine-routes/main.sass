@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap')
+    
+$navbg: #000008
+$mainbg: #2b2b2b
+$maincolor: #00e2ad
+$mainlight: #66ffdb
+$white: #ffffff
+
+body
+    margin: 0
+    padding: 0
+
+*
+    font-family: 'Open Sans', sans-serif
+    
+nav
+    position: fixed
+    top: 0
+    left: 0
+    height: 100vh
+    width: 15vw
+    background-color: $navbg
+    color: $white
+
+    ul
+        margin: 0
+        padding: 0
+        margin-top: 1vw
+
+        li
+            width: 14vw
+            padding-left: 1vw
+            padding-top: 1vh
+            padding-bottom: 1vh
+            list-style: none
+
+            &:hover
+                color: $mainlight
+                cursor: pointer
+
+            &.active
+                color: $maincolor
+
+main
+    position: fixed
+    top: 0
+    left: 15vw
+    width: 85vw
+    height: 100vh
+    background-color: $mainbg
+    color: $maincolor
+
+    #cout-output
+        height: 99vh
+        width: 99vw
+        padding-left: 1vw
+        padding-top: 1vh
+        overflow-y: auto
+
+.log
+    color: #4aa9f7
+
+.warn
+    color: #ffb400
+
+.error
+    color: #ff4d4d
+
+.log-errrrr
+    color: #ff4d4d
+
+    .log-string
+        color: #ff4d4d
+
+.log-func
+    color: #9743e5
+
+    .log-string
+        color: #9743e5
+
+.log-string
+    color: #14cc5d
+
+.log-number
+    color: #f4ec00
+
+.log-object
+    color: #f820b0
+
+.log-boolean
+    color: #cb4b58
+
+.log-undefined
+    color: #878787
+
+.req-method
+    color: #a311a3
+
+.none
+    color: #878787
+
+.req-body
+    h4
+        margin-bottom: 0
+    pre
+        margin-top: 0
+        margin-left: 1vw
+
+.req-info
+    li
+        color: #a8ffe5
+        font-weight: bold
+
+        .req-prop-value
+            color: #a8d5ff
+            font-weight: normal
+
+.req-container
+    margin-left: 2vw
+
+#reqs-output
+    position: fixed
+    top: 0
+    left: 15vw
+    width: 85vw
+    height: 100vh
+    background-color: $mainbg
+    color: $maincolor
+    overflow-y: auto
+
+    table
+        tr
+            td:nth-child(1)
+                color: #a8ffe5
+                font-weight: bold
+            td:nth-child(2)
+                color: #a8d5ff
+                padding-left: 1vw
+            
+
+    hr
+        width: 81vw
+        text-align: center
+
+.req-more-info
+    display: none
+
+    &.visible
+        display: block
+
+.req-title
+    cursor: pointer

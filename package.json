@@ -24,5 +24,12 @@
   "bugs": {
     "url": "https://github.com/greencoder001/debug-engine/issues"
   },
-  "homepage": "https://github.com/greencoder001/debug-engine#readme"
+  "homepage": "https://github.com/greencoder001/debug-engine#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "on-finished": "^2.4.1",
+    "on-headers": "^1.0.2",
+    "open": "^8.4.0",
+    "socket.io": "^4.4.1"
+  }
 }
