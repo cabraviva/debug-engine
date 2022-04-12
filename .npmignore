@@ -1,2 +1,6 @@
 examples/
 debug-engine-routes/main.sass
+.vscode/
+.jshintrc
+.gitattributes
+dist/debug-engine.dev.js
