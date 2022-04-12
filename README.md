@@ -45,3 +45,17 @@ const debugEngine = new DebugEngine('development')
 ```javascript
 const debugEngine = new DebugEngine('production')
 ```
+
+# Downlogger Integration
+If you are using [downlogger](https://www.npmjs.com/package/downlogger), and want to pipe the logs into the DebugEngine, you can simply use `DownLogger.setCustomConsole(debugEngine.console)`:
+
+```javascript
+// DebugEngine
+const DebugEngine = require('debug-engine')
+const debugEngine = new DebugEngine()
+
+// Downlogger
+const DownLogger = require('downlogger')
+const Logger = new DownLogger()
+Logger.setCustomConsole(debugEngine.console)
+```
