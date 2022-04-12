@@ -2,10 +2,36 @@ const socket = io()
 
 const consoleOutput = []
 const payloads = []
+let fileTree = ''
 let routes = []
 
 socket.on('routes', _routes => {
     routes = _routes
+})
+
+function parseFileTree (tree) {
+    let res = ''
+    res += '<ul>'
+
+    for (const file of Object.keys(tree)) {
+        if (typeof tree[file] === 'object') {
+            res += `<li class="folder">/${file} ${parseFileTree(tree[file])}</li>`
+        } else {
+            res += `<li class="pointer file" title="Show file" onclick="showDocument('${btoa(tree[file])}', 'text/plain')">${file}</li>`
+        }
+    }
+
+    res += '</ul>'
+    return res
+}
+
+socket.on('file-tree', _fileTree => {
+    // Parse file tree
+    // _fileTree is an object which needs to be converted into a tree string
+    // The tree string is used to display the file tree in the UI
+    console.log(_fileTree)
+
+    fileTree = parseFileTree(_fileTree)
 })
 
 const pages = {
@@ -18,6 +44,9 @@ const pages = {
     routes: `
         <h1 style="margin-left:1vw">Routes:</h1>
         <div id="routes-output"></div>
+    `,
+    'file-tree': `
+        <div id="file-tree-output"></div>
     `
 }
 
@@ -38,6 +67,10 @@ function setMainContent (namespace) {
 
     if (namespace === 'routes') {
         updateRoutes()
+    }
+
+    if (namespace === 'file-tree') {
+        updateFileTree()
     }
 }
 
@@ -113,6 +146,10 @@ function showDocument(_base64Str, _contentType) {
       var byte = base64ToArrayBuffer(_base64Str);
       var blob = new Blob([byte], { type: _contentType });
       window.open(URL.createObjectURL(blob), "_blank");
+}
+
+function updateFileTree () {
+    $$('#file-tree-output').inner(fileTree)
 }
 
 function updateRoutes () {
@@ -268,6 +305,10 @@ $$(document)(() => {
 
     $$('#nav-routes').on('click', () => {
         setMainContent('routes')
+    })
+
+    $$('#nav-file-tree').on('click', () => {
+        setMainContent('file-tree')
     })
 
     setMainContent('cout')

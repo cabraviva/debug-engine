@@ -151,6 +151,9 @@ class DebugEngine {
 
             // Routes
             socket.emit('routes', this.routes)
+
+            // File Tree
+            socket.emit('file-tree', this.getFileTree())
         })
     }
 
@@ -176,6 +179,48 @@ class DebugEngine {
                 }
             }
         }
+    }
+
+    getFileTree () {
+        const pm = require('parent-modules')
+        const parentModule = pm().pop()
+        const folder = path.dirname(parentModule)
+
+        function genTree (folder) {
+            const files = fs.readdirSync(folder)
+            const tree = {}
+            for (const file of files) {
+                const filePath = path.join(folder, file)
+                const stats = fs.statSync(filePath)
+                if (stats.isDirectory()) {
+                    tree[file] = genTree(filePath)
+                } else {
+                    tree[file] = filePath
+                }
+            }
+            return tree
+        }
+
+        let tree = genTree(folder)
+
+        // For every file in the tree, change the value to the file contents
+        // If tree[file] is an object, then it's a folder and we need to recurse
+
+        function getFileContents (_tree) {
+            for (const file in _tree) {
+                if (typeof _tree[file] === 'object') {
+                    _tree[file] = getFileContents(_tree[file])
+                } else {
+                    _tree[file] = fs.readFileSync(_tree[file], 'utf8').toString('utf8')
+                }
+            }
+
+            return _tree
+        }
+
+        tree = getFileContents(tree)
+
+        return tree
     }
 
     pipe (app) {
